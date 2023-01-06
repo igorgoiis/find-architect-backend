@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -54,5 +54,20 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    try {
+      await this.prisma.user.delete({ where: { id } });
+
+      return true;
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === 'P2025') {
+          console.log('User not found.');
+        }
+      }
+      throw new NotFoundException('User not found.');
+    }
   }
 }
