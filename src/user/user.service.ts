@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
-import { Prisma, User } from '@prisma/client';
+import { Prisma, Role, User } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -44,6 +44,18 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async findUserByRole(role: Role): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      where: { role },
+    });
+
+    if (!users) {
+      throw new NotFoundException('Users not found.');
+    }
+
+    return users;
   }
 
   async updateUser(id: string, data: UpdateUserInput): Promise<User> {
