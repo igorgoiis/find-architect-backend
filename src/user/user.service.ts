@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
+import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
@@ -19,11 +21,27 @@ export class UserService {
     });
 
     if (emailExists) {
-      throw new Error('This email already exists.');
+      throw new BadRequestException('This email already exists.');
     }
 
     return await this.prisma.user.create({
       data,
     });
+  }
+
+  async findUserById(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    console.log(user);
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return user;
   }
 }
