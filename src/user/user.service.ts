@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UserService {
@@ -37,6 +38,16 @@ export class UserService {
     });
 
     console.log(user);
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return user;
+  }
+
+  async updateUser(id: string, data: UpdateUserInput): Promise<User> {
+    const user = this.prisma.user.update({ where: { id }, data: { ...data } });
 
     if (!user) {
       throw new NotFoundException('User not found.');

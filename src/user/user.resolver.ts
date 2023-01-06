@@ -1,6 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from '@prisma/client';
 import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 import { User as UserModel } from './models/user.model';
 import { UserService } from './user.service';
 
@@ -21,5 +22,13 @@ export class UserResolver {
   @Mutation(() => UserModel)
   async createUser(@Args('data') data: CreateUserInput): Promise<User> {
     return await this.userService.createUser(data);
+  }
+
+  @Mutation(() => UserModel)
+  async updateUser(
+    @Args('id') id: string,
+    @Args('data') data: UpdateUserInput,
+  ): Promise<User> {
+    return await this.userService.updateUser(id, data);
   }
 }
