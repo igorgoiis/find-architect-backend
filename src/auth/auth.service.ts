@@ -26,7 +26,7 @@ export class AuthService {
 
     const validPassword = compareSync(
       data.password,
-      userPassword?.password as string,
+      userPassword?.password ?? '',
     );
 
     if (!validPassword) {
