@@ -26,11 +26,17 @@ export class PrismaService
     //  */
     this.$use(async (params, next) => {
       const result = await next(params);
+
       if (params?.model === 'User' && params?.args?.select?.password !== true) {
-        if (result) {
-          delete result.password;
+        if (Array.isArray(result)) {
+          result.forEach((user) => delete user.password);
+        } else {
+          if (result) {
+            delete result.password;
+          }
         }
       }
+
       return result;
     });
 

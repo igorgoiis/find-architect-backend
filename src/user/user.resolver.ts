@@ -1,11 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Role, User } from '@prisma/client';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserInput } from './dtos/create-user.input';
+import { UpdateUserInput } from './dtos/update-user.input';
 import { User as UserModel } from './models/user.model';
 import { UserService } from './user.service';
 
-@Resolver()
+@Resolver('User')
 export class UserResolver {
   constructor(private userService: UserService) {}
 
