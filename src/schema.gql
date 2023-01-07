@@ -33,6 +33,7 @@ enum Role {
 type Query {
   users: [User!]!
   userById(id: String!): User!
+  userByEmail(email: String!): User!
   userByRole(role: String!): [User!]!
 }
 

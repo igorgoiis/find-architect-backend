@@ -19,6 +19,11 @@ export class UserResolver {
     return await this.userService.findUserById(id);
   }
 
+  @Query(() => UserModel)
+  async userByEmail(@Args('email') email: string): Promise<User> {
+    return await this.userService.findUserByEmail(email);
+  }
+
   @Query(() => [UserModel])
   async userByRole(@Args('role') role: Role): Promise<User[]> {
     return await this.userService.findUserByRole(role);
