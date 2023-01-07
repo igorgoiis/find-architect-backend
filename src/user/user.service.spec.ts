@@ -95,6 +95,32 @@ describe('UserService', () => {
         where: { id: '123123' },
       });
     });
+
+    it('should return user by email', async () => {
+      const user = TestUtil.giveAMeAValidUser();
+      mockPrisma.user.findUnique.mockReturnValue(user);
+      const userFound = await userService.findUserByEmail(user.email);
+
+      expect(userFound).toMatchObject(user);
+      expect(prismaService.user.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+        where: { email: user.email },
+      });
+    });
+
+    it('should return exception when user is not found by email', async () => {
+      const user = TestUtil.giveAMeAValidUser();
+      mockPrisma.user.findUnique.mockReturnValue(null);
+
+      userService.findUserByEmail(user.email).catch((e) => {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e).toMatchObject({ message: 'User not found.' });
+      });
+      expect(prismaService.user.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+        where: { email: user.email },
+      });
+    });
   });
 
   describe('createUser', () => {
