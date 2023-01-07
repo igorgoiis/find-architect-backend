@@ -5,7 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PrismaService
@@ -18,6 +18,27 @@ export class PrismaService
 
   async onModuleInit() {
     await this.$connect();
+
+    // /**
+    //  * Exclude users password
+    //  *
+    //  * This middleware excludes the password field from users when passed as a parameter in queries
+    //  */
+    this.$use(async (params, next) => {
+      const result = await next(params);
+      if (params?.model === 'User' && params?.args?.select?.password !== true) {
+        if (result) {
+          delete result.password;
+        }
+      }
+      return result;
+    });
+
+    /**
+     *  Adding hash password
+     *
+     *  This middlware adds hash in the password user
+     * */
     this.$use(async (params, next) => {
       if (params.action == 'create' && params.model == 'User') {
         const user = params.args.data;

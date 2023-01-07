@@ -7,8 +7,6 @@ import {
   IsPhoneNumber,
   IsDate,
   IsEnum,
-  IsStrongPassword,
-  isString,
   MinLength,
   MaxLength,
 } from 'class-validator';
