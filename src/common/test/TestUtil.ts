@@ -6,6 +6,7 @@ export default class TestUtil {
     const user = new User();
     user.id = '82922d2d-3665-489f-a6ab-b45f3e9bd2ca';
     user.email = 'osvodak@architect.com';
+    user.password = '123456';
     user.name = 'Osvodak Darsi';
     user.phone = '74988776655';
     user.gender = Gender.M;

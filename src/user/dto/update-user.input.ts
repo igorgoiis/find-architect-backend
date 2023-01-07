@@ -7,6 +7,8 @@ import {
   IsDate,
   IsEnum,
   IsOptional,
+  MinLength,
+  MaxLength,
 } from 'class-validator';
 
 @InputType()
@@ -16,6 +18,15 @@ export class UpdateUserInput {
   @IsNotEmpty({ message: 'The name field cannot be empty.' })
   @IsOptional()
   name?: string;
+
+  @Field()
+  @IsString()
+  @MinLength(6, { message: 'Password must contain at least 6 characters.' })
+  @MaxLength(20, {
+    message: 'The password must contain a maximum of 20 characters.',
+  })
+  @IsNotEmpty({ message: 'The password is required,' })
+  password: string;
 
   @Field()
   @IsPhoneNumber('BR')
