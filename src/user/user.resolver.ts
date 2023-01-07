@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Role, User } from '@prisma/client';
+import { GqlAuthGuard } from '../auth/auth.guard';
 import { CreateUserInput } from './dtos/create-user.input';
 import { UpdateUserInput } from './dtos/update-user.input';
 import { User as UserModel } from './models/user.model';
@@ -14,11 +16,14 @@ export class UserResolver {
     return await this.userService.findAllUsers();
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => UserModel)
   async userById(@Args('id') id: string): Promise<User> {
+    console.log({ id });
     return await this.userService.findUserById(id);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => UserModel)
   async userByEmail(@Args('email') email: string): Promise<User> {
     return await this.userService.findUserByEmail(email);
