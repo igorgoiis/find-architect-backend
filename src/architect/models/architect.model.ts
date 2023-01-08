@@ -1,8 +1,8 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Gender, Role } from '@prisma/client';
+import { Gender } from '@prisma/client';
 
 @ObjectType()
-export class User {
+export class Architect {
   @Field(() => ID)
   id: string;
 
@@ -27,9 +27,6 @@ export class User {
   @Field()
   birdDate: Date;
 
-  @Field(() => Role)
-  role: Role;
-
   @Field()
   createdAt: Date;
 
@@ -39,8 +36,4 @@ export class User {
 
 registerEnumType(Gender, {
   name: 'Gender',
-});
-
-registerEnumType(Role, {
-  name: 'Role',
 });

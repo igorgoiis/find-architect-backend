@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Gender, Role } from '@prisma/client';
+import { Gender } from '@prisma/client';
 import {
   IsString,
   IsNotEmpty,
@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class UpdateUserInput {
+export class UpdateArchitectInput {
   @Field()
   @IsString()
   @IsNotEmpty({ message: 'The name field cannot be empty.' })
@@ -32,7 +32,7 @@ export class UpdateUserInput {
   })
   @IsNotEmpty({ message: 'The password is required,' })
   @IsOptional()
-  password: string;
+  password?: string;
 
   @Field()
   @IsPhoneNumber('BR')
@@ -51,10 +51,4 @@ export class UpdateUserInput {
   @IsNotEmpty({ message: 'The birdDate field cannot be empty.' })
   @IsOptional()
   birdDate?: Date;
-
-  @Field(() => Role)
-  @IsEnum(Role)
-  @IsNotEmpty({ message: 'The role field cannot be empty.' })
-  @IsOptional()
-  role?: Role;
 }

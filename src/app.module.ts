@@ -3,7 +3,7 @@ import { DatabaseModule } from './database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'node:path';
-import { UserModule } from './user/user.module';
+import { ArchitectModule } from './architect/architect.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { AuthModule } from './auth/auth.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req }) => ({ req }),
     }),
-    UserModule,
+    ArchitectModule,
     AuthModule,
   ],
   controllers: [],

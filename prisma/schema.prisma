@@ -10,26 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+model Client {
+  id        String           @id @default(uuid())
+  email     String           @unique
+  password  String
+  name      String
+  phone     String
+  gender    Gender
+  birdDate  DateTime
+  requests  ServiceRequest[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
+}
+
+model Architect {
+  id        String           @id @default(uuid())
+  email     String           @unique
   password  String
   name      String
   bio       String
   phone     String
   gender    Gender
   birdDate  DateTime
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  requests  ServiceRequest[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
 }
 
-enum Role {
-  CLIENT
-  ARCHITECT
+model ServiceRequest {
+  id          String        @id @default(uuid())
+  title       String
+  staus       StatusService
+  description String
+  requester   Client        @relation(fields: [requesterId], references: [id])
+  requesterId String
+  requested   Architect     @relation(fields: [requestedId], references: [id])
+  requestedId String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
 }
 
 enum Gender {
   M
   F
+}
+
+enum StatusService {
+  REQUESTED
+  ACCEPTED
+  DECLINED
 }

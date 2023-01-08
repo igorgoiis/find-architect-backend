@@ -2,15 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Architect {
   id: ID!
   email: String!
+  bio: String!
   password: String!
   name: String!
   phone: String!
   gender: Gender!
   birdDate: DateTime!
-  role: Role!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -25,47 +25,41 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-enum Role {
-  CLIENT
-  ARCHITECT
-}
-
 type AuthModel {
-  user: User!
+  architect: Architect!
   token: String!
 }
 
 type Query {
-  users: [User!]!
-  userById(id: String!): User!
-  userByEmail(email: String!): User!
-  userByRole(role: String!): [User!]!
+  architects: [Architect!]!
+  architectById(id: String!): Architect!
+  architectByEmail(email: String!): Architect!
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
-  updateUser(id: String!, data: UpdateUserInput!): User!
-  deleteUser(id: String!): Boolean!
+  createArchitect(data: CreateArchitectInput!): Architect!
+  updateArchitect(id: String!, data: UpdateArchitectInput!): Architect!
+  deleteArchitect(id: String!): Boolean!
   login(data: AuthInput!): AuthModel!
 }
 
-input CreateUserInput {
+input CreateArchitectInput {
   email: String!
   password: String!
   name: String!
+  bio: String!
   phone: String!
   gender: Gender!
   birdDate: DateTime!
-  role: Role!
 }
 
-input UpdateUserInput {
+input UpdateArchitectInput {
   name: String
-  password: String!
+  bio: String
+  password: String
   phone: String
   gender: Gender
   birdDate: DateTime
-  role: Role
 }
 
 input AuthInput {

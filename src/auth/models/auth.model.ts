@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from 'src/user/models/user.model';
+import { Architect } from 'src/architect/models/architect.model';
 
 @ObjectType()
 export class AuthModel {
-  @Field(() => User)
-  user: User;
+  @Field(() => Architect)
+  architect: Architect;
 
   token: string;
 }

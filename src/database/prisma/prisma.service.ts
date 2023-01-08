@@ -20,16 +20,19 @@ export class PrismaService
     await this.$connect();
 
     // /**
-    //  * Exclude users password
+    //  * Exclude architect password
     //  *
-    //  * This middleware excludes the password field from users when passed as a parameter in queries
+    //  * This middleware excludes the password field from architect when passed as a parameter in queries
     //  */
     this.$use(async (params, next) => {
       const result = await next(params);
 
-      if (params?.model === 'User' && params?.args?.select?.password !== true) {
+      if (
+        params?.model === 'Architect' &&
+        params?.args?.select?.password !== true
+      ) {
         if (Array.isArray(result)) {
-          result.forEach((user) => delete user.password);
+          result.forEach((architect) => delete architect.password);
         } else {
           if (result) {
             delete result.password;
@@ -43,15 +46,15 @@ export class PrismaService
     /**
      *  Adding hash password
      *
-     *  This middlware adds hash in the password user
+     *  This middlware adds hash in the password architect
      * */
     this.$use(async (params, next) => {
-      if (params.action == 'create' && params.model == 'User') {
-        const user = params.args.data;
+      if (params.action == 'create' && params.model == 'Architect') {
+        const architect = params.args.data;
         const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(user.password, salt);
-        user.password = hash;
-        params.args.data = user;
+        const hash = bcrypt.hashSync(architect.password, salt);
+        architect.password = hash;
+        params.args.data = architect;
       }
 
       return next(params);
