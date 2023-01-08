@@ -21,11 +21,17 @@ export class UpdateUserInput {
 
   @Field()
   @IsString()
+  @IsOptional()
+  bio?: string;
+
+  @Field()
+  @IsString()
   @MinLength(6, { message: 'Password must contain at least 6 characters.' })
   @MaxLength(20, {
     message: 'The password must contain a maximum of 20 characters.',
   })
   @IsNotEmpty({ message: 'The password is required,' })
+  @IsOptional()
   password: string;
 
   @Field()

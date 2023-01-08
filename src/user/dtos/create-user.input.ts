@@ -9,6 +9,7 @@ import {
   IsEnum,
   MinLength,
   MaxLength,
+  IsOptional,
 } from 'class-validator';
 
 @InputType()
@@ -31,6 +32,12 @@ export class CreateUserInput {
   @IsString()
   @IsNotEmpty({ message: 'The name field cannot be empty.' })
   name: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty({ message: 'The bio field cannot be empty.' })
+  @IsOptional()
+  bio?: string;
 
   @Field()
   @IsPhoneNumber('BR')
