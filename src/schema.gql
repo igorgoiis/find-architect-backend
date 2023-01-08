@@ -5,6 +5,7 @@
 type User {
   id: ID!
   email: String!
+  password: String!
   name: String!
   phone: String!
   gender: Gender!
@@ -29,9 +30,15 @@ enum Role {
   ARCHITECT
 }
 
+type AuthModel {
+  user: User!
+  token: String!
+}
+
 type Query {
   users: [User!]!
   userById(id: String!): User!
+  userByEmail(email: String!): User!
   userByRole(role: String!): [User!]!
 }
 
@@ -39,10 +46,12 @@ type Mutation {
   createUser(data: CreateUserInput!): User!
   updateUser(id: String!, data: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
+  login(data: AuthInput!): AuthModel!
 }
 
 input CreateUserInput {
   email: String!
+  password: String!
   name: String!
   phone: String!
   gender: Gender!
@@ -52,8 +61,14 @@ input CreateUserInput {
 
 input UpdateUserInput {
   name: String
+  password: String!
   phone: String
   gender: Gender
   birdDate: DateTime
   role: Role
+}
+
+input AuthInput {
+  email: String!
+  password: String!
 }

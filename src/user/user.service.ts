@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
-import { Prisma, Role, User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { PrismaService } from '../database/prisma/prisma.service';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserInput } from './dtos/create-user.input';
+import { UpdateUserInput } from './dtos/update-user.input';
 
 @Injectable()
 export class UserService {
@@ -34,6 +34,20 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return user;
+  }
+
+  async findUserByEmail(email: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email,
       },
     });
 
