@@ -67,7 +67,7 @@ export class UserService {
   }
 
   async updateUser(id: string, data: UpdateUserInput): Promise<User> {
-    const user = this.prisma.user.update({ where: { id }, data: { ...data } });
+    const user = await this.prisma.user.update({ where: { id }, data });
 
     if (!user) {
       throw new NotFoundException('User not found.');

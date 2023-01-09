@@ -11,17 +11,36 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  bio       String
-  phone     String
-  gender    Gender
-  birdDate  DateTime
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id                String           @id @default(uuid())
+  email             String           @unique
+  password          String
+  name              String
+  bio               String
+  phone             String
+  gender            Gender
+  birdDate          DateTime
+  role              Role
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
+  ClientRequesting  ServiceRequest[] @relation(name: "cRequest")
+  ArchitectRequesed ServiceRequest[] @relation(name: "aRequest")
+}
+
+model ServiceRequest {
+  id              String        @id @default(uuid())
+  title           String
+  description     String
+  status          StatusService
+  cServiceResquet User?         @relation(name: "cRequest", fields: [cRequestId], references: [id])
+  aServiceResquet User?         @relation(name: "aRequest", fields: [aRequestId], references: [id])
+  cRequestId      String?
+  aRequestId      String?
+}
+
+enum StatusService {
+  REQUESTED
+  ACCEPTED
+  DECLINED
 }
 
 enum Role {

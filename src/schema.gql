@@ -5,6 +5,7 @@
 type User {
   id: ID!
   email: String!
+  bio: String!
   password: String!
   name: String!
   phone: String!
@@ -35,11 +36,28 @@ type AuthModel {
   token: String!
 }
 
+type ServiceRequest {
+  id: ID!
+  title: String!
+  description: String!
+  status: StatusService!
+  cRequestId: String
+  aRequestId: String
+}
+
+enum StatusService {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+}
+
 type Query {
   users: [User!]!
   userById(id: String!): User!
   userByEmail(email: String!): User!
   userByRole(role: String!): [User!]!
+  findAllServiceRequest: [ServiceRequest!]!
+  findOneServiceRequest(id: String!): ServiceRequest!
 }
 
 type Mutation {
@@ -47,12 +65,16 @@ type Mutation {
   updateUser(id: String!, data: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
   login(data: AuthInput!): AuthModel!
+  createServiceRequest(data: CreateServiceRequestInput!): ServiceRequest!
+  updateServiceRequest(id: String!, data: UpdateServiceRequestInput!): ServiceRequest!
+  removeServiceRequest(id: String!): ServiceRequest!
 }
 
 input CreateUserInput {
   email: String!
   password: String!
   name: String!
+  bio: String!
   phone: String!
   gender: Gender!
   birdDate: DateTime!
@@ -61,7 +83,8 @@ input CreateUserInput {
 
 input UpdateUserInput {
   name: String
-  password: String!
+  bio: String
+  password: String
   phone: String
   gender: Gender
   birdDate: DateTime
@@ -71,4 +94,18 @@ input UpdateUserInput {
 input AuthInput {
   email: String!
   password: String!
+}
+
+input CreateServiceRequestInput {
+  title: String!
+  description: String!
+  status: StatusService!
+  cRequestId: String
+  aRequestId: String
+}
+
+input UpdateServiceRequestInput {
+  title: String!
+  description: String!
+  status: StatusService!
 }

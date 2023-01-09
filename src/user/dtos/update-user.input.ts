@@ -32,7 +32,7 @@ export class UpdateUserInput {
   })
   @IsNotEmpty({ message: 'The password is required,' })
   @IsOptional()
-  password: string;
+  password?: string;
 
   @Field()
   @IsPhoneNumber('BR')

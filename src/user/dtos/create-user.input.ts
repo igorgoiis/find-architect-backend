@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 import { Gender, Role } from '@prisma/client';
 import {
   IsString,
@@ -9,7 +9,6 @@ import {
   IsEnum,
   MinLength,
   MaxLength,
-  IsOptional,
 } from 'class-validator';
 
 @InputType()
@@ -36,8 +35,7 @@ export class CreateUserInput {
   @Field()
   @IsString()
   @IsNotEmpty({ message: 'The bio field cannot be empty.' })
-  @IsOptional()
-  bio?: string;
+  bio: string;
 
   @Field()
   @IsPhoneNumber('BR')
@@ -59,3 +57,7 @@ export class CreateUserInput {
   @IsNotEmpty({ message: 'The role field cannot be empty.' })
   role: Role;
 }
+
+registerEnumType(Gender, {
+  name: 'Gender',
+});
