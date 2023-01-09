@@ -2,49 +2,47 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcrypt';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { Architect } from 'src/architect/models/architect.model';
-import { ArchitectService } from '../architect/architect.service';
+import { User } from 'src/user/models/user.model';
+import { UserService } from '../user/user.service';
 import { AuthInput } from './dtos/auth.input';
 import { AuthModel } from './models/auth.model';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private architectService: ArchitectService,
+    private userService: UserService,
     private prismaService: PrismaService,
     private jwtService: JwtService,
   ) {}
 
-  async validateArchitect(data: AuthInput): Promise<AuthModel> {
-    const architectPassword = await this.prismaService.architect.findUnique({
+  async validateUser(data: AuthInput): Promise<AuthModel> {
+    const userPassword = await this.prismaService.user.findUnique({
       where: { email: data.email },
       select: {
         password: true,
       },
     });
-    const architect = await this.architectService.findArchitectByEmail(
-      data.email,
-    );
+    const user = await this.userService.findUserByEmail(data.email);
 
     const validPassword = compareSync(
       data.password,
-      architectPassword?.password ?? '',
+      userPassword?.password ?? '',
     );
 
     if (!validPassword) {
       throw new UnauthorizedException('Incorrect password.');
     }
 
-    const token = await this.jwtToken(architect);
+    const token = await this.jwtToken(user);
 
     return {
-      architect,
+      user,
       token,
     };
   }
 
-  private async jwtToken(architect: Architect): Promise<string> {
-    const payload = { architectname: architect.name, sub: architect.id };
+  private async jwtToken(user: User): Promise<string> {
+    const payload = { username: user.name, sub: user.id };
 
     return await this.jwtService.signAsync(payload);
   }

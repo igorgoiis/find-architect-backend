@@ -9,9 +9,9 @@ export class AuthResolver {
 
   @Mutation(() => AuthModel)
   public async login(@Args('data') data: AuthInput): Promise<AuthModel> {
-    const response = await this.authService.validateArchitect(data);
+    const response = await this.authService.validateUser(data);
     return {
-      architect: response.architect,
+      user: response.user,
       token: response.token,
     };
   }

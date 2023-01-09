@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
-import { ArchitectService } from '../architect/architect.service';
+import { UserService } from '../user/user.service';
 import { DatabaseModule } from '../database/database.module';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { JwtStrategy } from './jwt.strategy';
@@ -18,6 +18,6 @@ import { JwtStrategy } from './jwt.strategy';
       }),
     }),
   ],
-  providers: [AuthService, AuthResolver, ArchitectService, JwtStrategy],
+  providers: [AuthService, AuthResolver, UserService, JwtStrategy],
 })
 export class AuthModule {}

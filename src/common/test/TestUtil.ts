@@ -1,21 +1,20 @@
-import { Gender } from '@prisma/client';
-import { Architect } from './../../architect/models/architect.model';
+import { Gender, Role } from '@prisma/client';
+import { User } from './../../user/models/user.model';
 
 export default class TestUtil {
-  static giveAMeAValidArchitect(): Architect {
-    const architect = new Architect();
-    architect.id = '82922d2d-3665-489f-a6ab-b45f3e9bd2ca';
-    architect.email = 'osvodak@architect.com';
-    architect.bio =
-      'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis.';
-    architect.password = '123456';
-    architect.name = 'Osvodak Darsi';
-    architect.phone = '74988776655';
-    architect.gender = Gender.M;
-    architect.birdDate = new Date('02/30/1992');
-    architect.createdAt = new Date();
-    architect.updatedAt = new Date();
+  static giveAMeAValidUser(): User {
+    const user = new User();
+    user.id = '82922d2d-3665-489f-a6ab-b45f3e9bd2ca';
+    user.email = 'osvodak@architect.com';
+    user.password = '123456';
+    user.name = 'Osvodak Darsi';
+    user.phone = '74988776655';
+    user.gender = Gender.M;
+    user.role = Role.ARCHITECT;
+    user.birdDate = new Date('02/30/1992');
+    user.createdAt = new Date();
+    user.updatedAt = new Date();
 
-    return architect;
+    return user;
   }
 }

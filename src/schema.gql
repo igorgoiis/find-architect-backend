@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Architect {
+type User {
   id: ID!
   email: String!
   bio: String!
@@ -11,6 +11,7 @@ type Architect {
   phone: String!
   gender: Gender!
   birdDate: DateTime!
+  role: Role!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -25,8 +26,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+enum Role {
+  CLIENT
+  ARCHITECT
+}
+
 type AuthModel {
-  architect: Architect!
+  user: User!
   token: String!
 }
 
@@ -55,16 +61,16 @@ type Query {
 }
 
 type Mutation {
-  createArchitect(data: CreateArchitectInput!): Architect!
-  updateArchitect(id: String!, data: UpdateArchitectInput!): Architect!
-  deleteArchitect(id: String!): Boolean!
+  createUser(data: CreateUserInput!): User!
+  updateUser(id: String!, data: UpdateUserInput!): User!
+  deleteUser(id: String!): Boolean!
   login(data: AuthInput!): AuthModel!
   createServiceRequest(data: CreateServiceRequestInput!): ServiceRequest!
   updateServiceRequest(id: String!, data: UpdateServiceRequestInput!): ServiceRequest!
   removeServiceRequest(id: String!): Boolean!
 }
 
-input CreateArchitectInput {
+input CreateUserInput {
   email: String!
   password: String!
   name: String!
@@ -72,15 +78,17 @@ input CreateArchitectInput {
   phone: String!
   gender: Gender!
   birdDate: DateTime!
+  role: Role!
 }
 
-input UpdateArchitectInput {
+input UpdateUserInput {
   name: String
   bio: String
   password: String
   phone: String
   gender: Gender
   birdDate: DateTime
+  role: Role
 }
 
 input AuthInput {
