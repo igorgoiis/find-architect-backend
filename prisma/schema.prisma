@@ -37,6 +37,12 @@ model ServiceRequest {
   aRequestId      String?
 }
 
+enum StatusService {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+}
+
 enum Role {
   CLIENT
   ARCHITECT
@@ -45,10 +51,4 @@ enum Role {
 enum Gender {
   M
   F
-}
-
-enum StatusService {
-  REQUESTED
-  ACCEPTED
-  DECLINED
 }
