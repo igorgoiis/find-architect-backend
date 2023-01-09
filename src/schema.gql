@@ -30,10 +30,28 @@ type AuthModel {
   token: String!
 }
 
+type ServiceRequest {
+  id: ID!
+  title: String!
+  description: String!
+  status: StatusService!
+  cRequestId: String
+  aRequestId: String
+}
+
+enum StatusService {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+}
+
 type Query {
-  architects: [Architect!]!
-  architectById(id: String!): Architect!
-  architectByEmail(email: String!): Architect!
+  users: [User!]!
+  userById(id: String!): User!
+  userByEmail(email: String!): User!
+  userByRole(role: String!): [User!]!
+  findAllServiceRequest(id: String!): [ServiceRequest!]!
+  findOneServiceRequest(id: String!): ServiceRequest!
 }
 
 type Mutation {
@@ -41,6 +59,9 @@ type Mutation {
   updateArchitect(id: String!, data: UpdateArchitectInput!): Architect!
   deleteArchitect(id: String!): Boolean!
   login(data: AuthInput!): AuthModel!
+  createServiceRequest(data: CreateServiceRequestInput!): ServiceRequest!
+  updateServiceRequest(id: String!, data: UpdateServiceRequestInput!): ServiceRequest!
+  removeServiceRequest(id: String!): Boolean!
 }
 
 input CreateArchitectInput {
@@ -65,4 +86,18 @@ input UpdateArchitectInput {
 input AuthInput {
   email: String!
   password: String!
+}
+
+input CreateServiceRequestInput {
+  title: String!
+  description: String!
+  status: StatusService!
+  cRequestId: String
+  aRequestId: String
+}
+
+input UpdateServiceRequestInput {
+  title: String
+  description: String
+  status: StatusService
 }
