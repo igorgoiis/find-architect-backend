@@ -12,8 +12,19 @@ export class ServiceRequestService {
     return await this.prismaService.serviceRequest.create({ data });
   }
 
-  async findAll(): Promise<ServiceRequest[]> {
-    return await this.prismaService.serviceRequest.findMany();
+  async findAll(id: string): Promise<ServiceRequest[]> {
+    return await this.prismaService.serviceRequest.findMany({
+      where: {
+        OR: [
+          {
+            aRequestId: id,
+          },
+          {
+            cRequestId: id,
+          },
+        ],
+      },
+    });
   }
 
   async findOne(id: string): Promise<ServiceRequest> {

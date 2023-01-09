@@ -56,7 +56,7 @@ type Query {
   userById(id: String!): User!
   userByEmail(email: String!): User!
   userByRole(role: String!): [User!]!
-  findAllServiceRequest: [ServiceRequest!]!
+  findAllServiceRequest(id: String!): [ServiceRequest!]!
   findOneServiceRequest(id: String!): ServiceRequest!
 }
 
@@ -67,7 +67,7 @@ type Mutation {
   login(data: AuthInput!): AuthModel!
   createServiceRequest(data: CreateServiceRequestInput!): ServiceRequest!
   updateServiceRequest(id: String!, data: UpdateServiceRequestInput!): ServiceRequest!
-  removeServiceRequest(id: String!): ServiceRequest!
+  removeServiceRequest(id: String!): Boolean!
 }
 
 input CreateUserInput {
@@ -105,7 +105,7 @@ input CreateServiceRequestInput {
 }
 
 input UpdateServiceRequestInput {
-  title: String!
-  description: String!
-  status: StatusService!
+  title: String
+  description: String
+  status: StatusService
 }
